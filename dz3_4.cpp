@@ -16,7 +16,6 @@ int minNearNum(int* mas, int count, int num) {
 	if (num >= mas[last])
 		return last;
 
-//  Уменьшаем границу для последующего поиска
 	for (int ind = 1; ind < last; ind <<= 1) {
 		if (mas[ind] < num)
 			first = ind;
@@ -24,7 +23,6 @@ int minNearNum(int* mas, int count, int num) {
 			last = ind;
 	}
 
-//  Поиск
 	while (first < last - 1) {
 		int middle = (last + first) / 2;
 		if (mas[middle] < num)
@@ -33,8 +31,6 @@ int minNearNum(int* mas, int count, int num) {
 			last = middle;
 	}
 
-//  Высчитываем разницу между самим числом и числов в массиве
-//  и выбираем наименьшую
 	int d_left = num - mas[first];
 	int d_right = mas[last] - num;
 
@@ -44,29 +40,33 @@ int minNearNum(int* mas, int count, int num) {
 		return first;
 }
 
+void print_near_num_min_indexes(int *masA, int n, int *masB, int m) {
+	
+	for (int i = 0; i < m; i++) {
+		int k = minNearNum(masA, n, masB[i]);
+		cout << k << " ";
+	}
+	cout << endl;
+}
+
 int main() {
-	int n = 0, m = 0, k = 0;
-	int i = 0;
+	int n = 0, m = 0;
 
 	cin >> n;
 	assert(n > 0);
 	int* masA = new int[n];
-	for (i = 0; i < n; i++) {
+	for (int i = 0; i < n; i++) {
 		cin >> masA[i];
 	}
 
 	cin >> m;
 	assert(m > 0);
 	int* masB = new int[m];
-	for (i = 0; i < m; i++) {
+	for (int i = 0; i < m; i++) {
 		cin >> masB[i];
 	}
 
-	for (i = 0; i < m; i++) {
-		k = minNearNum(masA, n, masB[i]);
-		cout << k << " ";
-	}
-	cout << endl;
+	print_near_num_min_indexes(masA, n, masB, m);
 
 	delete[] masA;
 	delete[] masB;
