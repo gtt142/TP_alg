@@ -1,4 +1,9 @@
-//  Широкая пирамида
+//  Дано N кубиков. Требуется определить каким количеством способов можно выстроить из этих кубиков пирамиду.
+//  Формат входных данных:
+//  На вход подается количество кубиков N.
+//  Формат выходных данных:
+//  Вывести число различных пирамид из N кубиков.
+//  Широкая пирамида. Каждый вышележащий слой пирамиды должен быть строго меньше нижележащего.
 
 #include <iostream>
 
@@ -6,7 +11,12 @@ int mini(int a, int b) {
 	return a < b ? a : b;
 }
 
-void fill_d_table(long long **tab, int max) {
+long long count_pyramid(int max) {
+
+	long long **tab = new long long*[max + 1];
+	for (int i = 0; i <= max; i++) {
+		tab[i] = new long long[max + 1];
+	}
 
 	for (int i = 1; i <= max; i++) {
 		tab[i][0] = 0;
@@ -18,24 +28,20 @@ void fill_d_table(long long **tab, int max) {
 			tab[n][k] = tab[n - k][mini((n - k), (k - 1))] + tab[n][k - 1];
 		}
 	}
+	long long res = tab[max][max];
+	for (int i = 0; i <= max; i++) {
+		delete[] tab[i];
+	}
+	delete[] tab;
+	return res;
 }
 
 int main() {
 	int n;
 	std::cin >> n;
 
-	long long **d_table = new long long* [n + 1];
-	for (int i = 0; i <= n; i++) {
-		d_table[i] = new long long [n + 1];
-	}
-
-	fill_d_table(d_table, n);
-	std::cout << d_table[n][n] << std::endl;
-
-	for (int i = 0; i <= n; i++) {
-		delete[] d_table[i];
-	}
-	delete[] d_table;
+	long long res = count_pyramid(n);
+	std::cout << res << std::endl;
 
 	return 0;
 }
