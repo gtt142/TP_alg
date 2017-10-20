@@ -68,6 +68,12 @@ size_t inputMeets(Meeting ***top) {
 	return meetNum;
 }
 
+void delMeets(Meeting **meets, size_t count) {
+	for (size_t i = 0; i < count; i++)
+		delete meets[i];
+	delete[] meets;
+}
+
 int main() {
 	Meeting **meets = NULL;
 	size_t meetNum = inputMeets(&meets);
@@ -75,8 +81,6 @@ int main() {
 
 	cout << maxMeet << endl;
 
-	for (size_t i = 0; i < meetNum; i++)
-		delete meets[i];
-	delete[] meets;
+	delMeets(meets, meetNum);
 	return 0;
 }
